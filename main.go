@@ -16,7 +16,7 @@ func main() {
 		AllowMethods: []string{echo.GET, echo.POST},                              // Разрешённые методы
 		AllowHeaders: []string{echo.HeaderContentType, echo.HeaderAuthorization}, // Разрешённые заголовки
 	}))
-	e.GET("/", func(c echo.Context) error {
+	e.GET("/control/order-clean", func(c echo.Context) error {
 		if c.Request().Header.Get("Authorization") != "fdasdfsd" {
 			return nil
 		}
