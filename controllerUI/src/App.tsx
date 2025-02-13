@@ -52,7 +52,7 @@ function App() {
         // const promise = new Promise<void>((resolve) => {
         //   setTimeout(() => resolve(), 5000)
         // })
-        var baseUrl = 'http://10.10.10.159:1323'
+        var baseUrl = 'http://localhost:1323'
         var url = baseUrl + '/control/order-clean'
         type ResponseData = { status: number; text: string };
         if (selector === 2) {url = baseUrl + '/control/print-test'}
