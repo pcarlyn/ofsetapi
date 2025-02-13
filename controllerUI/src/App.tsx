@@ -53,7 +53,7 @@ function App() {
         fetch(url, { 
           method: 'GET', 
           headers: new Headers({
-              'Authorization': 'fdasdfsd'
+              'Authorization': '8a1829a0b9094e6392242dcb242a5b1e'
           }),
           mode: 'cors'
         }).then(async (res) => {
