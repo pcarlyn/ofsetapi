@@ -5,54 +5,149 @@ import {
   NativeSelectRoot,
 } from "./components/ui/native-select"
 import { Toaster, toaster } from "./components/ui/toaster"
-import { useState, useEffect } from 'react'
+import { useState, useRef, useCallback } from 'react'
+import { Field, Input } from "@chakra-ui/react"
+
+
 
 function App() {
+  const [inputValue, setInputValue] = useState('');
   const [num, setNum] = useState(0)
   const [selector, setSelector] = useState(1)
   const [log, setLog] = useState("")
+  const [placeholder, setPlaceholder] = useState(0);
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await fetch("http://10.10.10.159:1323/control/get-number");
-      const result = await response.json();
-      setNum(Number(result));
+  const calculateHost = (value: string | number, variable: number): string =>{
+    let numericValue: number;
+  
+    if (value === 'of') {
+      numericValue = 10;
+    } else if (value === 'lt') {
+      numericValue = 2;
+    } else if (typeof value === 'number') {
+      numericValue = value;
+    } else {
+      throw new Error('Invalid value input');
+    }
+  
+    if (variable > 255) {
+      const multiple = Math.floor(variable / 255);
+      numericValue += multiple;
+      variable = variable % 256;
     }
 
-    fetchData();}
-  )
+    if (numericValue > 255) {
+      throw new Error('Invalid value input');
+    }
+  
+    return `10.10.${numericValue}.${variable}`;
+  }
+  
+  const host = calculateHost("of", placeholder)
+
+  const timeoutRef = useRef<number | null>(null);
+
+  const debouncedFetchData = useCallback((newPlaceholder: number) => {
+    if (timeoutRef.current) {
+      clearTimeout(timeoutRef.current);
+    }
+
+    timeoutRef.current = window.setTimeout(() => {
+      fetchData(newPlaceholder);
+      timeoutRef.current = null;
+    }, 500);
+  }, []);
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value;
+    setInputValue(newValue);
+    const newPlaceholder = Number(newValue);
+    setPlaceholder(newPlaceholder);
+    debouncedFetchData(newPlaceholder);
+  };
+
+  const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === 'Enter') {
+      const newPlaceholder = Number(inputValue); 
+      setPlaceholder(newPlaceholder); 
+      fetchData(newPlaceholder);
+    }
+  };
+
+  const fetchData = async (newPlaceholder: number) => {
+    const newHost = calculateHost("of", newPlaceholder);
+    try {
+      const response = await fetch("http://" + newHost + ":1323/control/get-number");
+
+      if (!response.ok) {
+        setNum(0);
+        return;
+      }
+
+      const result = await response.json();
+      const parsedNum = Number(result);
+
+      if (isNaN(parsedNum)) {
+        console.error("Получено нечисловое значение:", result);
+        setNum(0);
+        return;
+      }
+
+      setNum(parsedNum);
+    } catch (error) {
+      console.error("Ошибка при запросе:", error);
+      setNum(0);
+    }
+  };
+  
   
   return (
     <>
+    <div className="flex justify-center items-center">
+      <div className="w-72">
+        <Field.Root invalid>
+          <Field.Label>of***.offset-partners.ru</Field.Label>
+          <Input 
+            placeholder={"444"}
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleInputKeyDown}
+          />
+          
+          <Field.ErrorText>Максимум трехзначные числа</Field.ErrorText>
+        </Field.Root>
+      </div>
+    </div>
+
+    <br></br>
+
     <div className="flex">
       <div className="w-100 flex-12  ...">
         <Highlight query="Offset" styles={{ fontWeight: "semibold" }}>
-          Offset-{}
+        {`Offset-${num} Host address-${host}`}
         </Highlight>
-        {String(num)}
       </div>
     </div>
    
     <br></br>
-      <NativeSelectRoot>
-        <NativeSelectField onChange={(e) => setSelector(Number(e.target.value))}>
-          <option value="1">Очистить очередь</option>
-          <option value="2">Выполнить тестовую печать</option>
-          <option value="3">Логи lpf info</option>
-          <option value="4">Логи lpf error</option>
-          <option value="5">speedtest</option>
-          <option value="6">speedtest --secure</option>
-        </NativeSelectField>
-      </NativeSelectRoot>
+    <div className="flex justify-center items-center">
+      <div className="w-72">
+        <NativeSelectRoot>
+          <NativeSelectField onChange={(e) => setSelector(Number(e.target.value))}>
+            <option value="1">Очистить очередь</option>
+            <option value="2">Выполнить тестовую печать</option>
+            <option value="3">Логи lpf info</option>
+            <option value="4">Логи lpf error</option>
+            <option value="5">speedtest</option>
+            <option value="6">speedtest --secure</option>
+          </NativeSelectField>
+        </NativeSelectRoot>
       <br></br>
       <Button className="mb-4, pb-10"
       variant="outline"
       size="sm"
       onClick={() => {
-        // const promise = new Promise<void>((resolve) => {
-        //   setTimeout(() => resolve(), 5000)
-        // })
-        var baseUrl = 'http://localhost:1323'
+        var baseUrl = 'http://' + host + ':1323'
         var url = baseUrl + '/control/order-clean'
         type ResponseData = { status: number; text: string };
         if (selector === 2) {url = baseUrl + '/control/print-test'}
@@ -90,6 +185,8 @@ function App() {
         })
         
       }}>Выполнить</Button>
+          </div>
+          </div>
       <br></br>
       <br></br>
       <Toaster />
