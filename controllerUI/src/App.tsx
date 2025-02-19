@@ -5,7 +5,7 @@ import {
   NativeSelectRoot,
 } from "./components/ui/native-select"
 import { Toaster, toaster } from "./components/ui/toaster"
-import { useState, useRef, useCallback } from 'react'
+import { useState, useRef, useCallback, useEffect } from 'react'
 import { Field, Input } from "@chakra-ui/react"
 
 
@@ -16,6 +16,17 @@ function App() {
   const [selector, setSelector] = useState(1)
   const [log, setLog] = useState("")
   const [placeholder, setPlaceholder] = useState(0);
+  const [host, setHost] = useState('');
+  const [error, setError] = useState('');
+
+
+  useEffect(() => {
+    console.log('placeholder изменился:', placeholder);
+  }, [placeholder]);
+
+  useEffect(() => {
+    console.log('error изменился:', error);
+  }, [error]);
 
   const calculateHost = (value: string | number, variable: number): string =>{
     let numericValue: number;
@@ -43,8 +54,22 @@ function App() {
     return `10.10.${numericValue}.${variable}`;
   }
   
-  const host = calculateHost("of", placeholder)
-
+  const handleCalculateHost = (value: string | number, variable: number) => {
+    try {
+      const calculatedHost = calculateHost(value, variable);
+      setHost(calculatedHost);
+      setError('');
+    } catch (e) {
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError('Произошла неизвестная ошибка'); 
+      }
+      setHost('');
+    }
+  };
+  
+  
   const timeoutRef = useRef<number | null>(null);
 
   const debouncedFetchData = useCallback((newPlaceholder: number) => {
@@ -63,18 +88,21 @@ function App() {
     setInputValue(newValue);
     const newPlaceholder = Number(newValue);
     setPlaceholder(newPlaceholder);
+    handleCalculateHost("of", newPlaceholder)
     debouncedFetchData(newPlaceholder);
   };
 
   const handleInputKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
       const newPlaceholder = Number(inputValue); 
-      setPlaceholder(newPlaceholder); 
+      setPlaceholder(newPlaceholder);
+      handleCalculateHost("of", newPlaceholder)
       fetchData(newPlaceholder);
     }
   };
 
   const fetchData = async (newPlaceholder: number) => {
+
     const newHost = calculateHost("of", newPlaceholder);
     try {
       const response = await fetch("http://" + newHost + ":1323/control/get-number");
