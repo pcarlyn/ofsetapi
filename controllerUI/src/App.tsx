@@ -162,12 +162,21 @@ function App() {
       <div className="w-72">
         <NativeSelectRoot>
           <NativeSelectField onChange={(e) => setSelector(Number(e.target.value))}>
-            <option value="1">Очистить очередь</option>
+            <option value="1">Очистить очередь(и перезапуск службы печати)</option>
             <option value="2">Выполнить тестовую печать</option>
             <option value="3">Логи lpf info</option>
             <option value="4">Логи lpf error</option>
             <option value="5">speedtest</option>
             <option value="6">speedtest --secure</option>
+            <option value="7">Логи интерфейса сегодня</option>
+            <option value="8">Логи интерфейса вчера</option>
+            <option value="9">Логи интерфейса позавчера</option>
+            <option value="10">Логи бота за 3 дня</option>
+            <option value="11">Перезапустить бота</option>
+            <option value="12">Логи перезагрузок за 3 дня</option>
+            <option value="13">Тест сканера</option>
+            <option value="14">Проверка подключения флешки</option>
+            <option value="15">Исправления подключения флешки(применять с осторожностью) </option>
           </NativeSelectField>
         </NativeSelectRoot>
       <br></br>
@@ -183,6 +192,15 @@ function App() {
         if (selector === 4) {url = baseUrl + '/control/get-lpf-error'}
         if (selector === 5) {url = baseUrl + '/control/run-speedtest'}
         if (selector === 6) {url = baseUrl + '/control/run-speedtest-secure'}
+        if (selector === 7) {url = baseUrl + '/control/get-log-prod/1'}
+        if (selector === 8) {url = baseUrl + '/control/get-log-prod/2'}
+        if (selector === 9) {url = baseUrl + '/control/get-log-prod/3'}
+        if (selector === 10) {url = baseUrl + '/control/get-log-bot'}
+        if (selector === 11) {url = baseUrl + '/control/restart-bot'}
+        if (selector === 12) {url = baseUrl + '/control/get-log-reboots'}
+        if (selector === 13) {url = baseUrl + '/control/scanimage-test'}
+        if (selector === 14) {url = baseUrl + '/control/check-usb-dir'}
+        if (selector === 15) {url = baseUrl + '/control/correct-usb-dir'}
         const prom = fetch(url, { 
           method: 'GET', 
           headers: new Headers({
