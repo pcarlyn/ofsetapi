@@ -38,7 +38,7 @@ func GetLogProd(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "Invalid date ID")
 	}
 
-	filePath := fmt.Sprintf("/opt/offset/log/prod-log_%s.log", date)
+	filePath := fmt.Sprintf("/opt/listok/log/prod-log_%s.log", date)
 
 	cmd := exec.Command("cat", filePath)
 

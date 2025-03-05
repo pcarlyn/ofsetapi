@@ -23,7 +23,7 @@ func GetLogBot(c echo.Context) error {
 
 	date := time.Now().AddDate(0, 0, -2).Format("2006-01-02")
 
-	cmd := exec.Command("journalctl", "-u", "offset@bot", "--since", date)
+	cmd := exec.Command("journalctl", "-u", "listok@bot", "--since", date)
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {

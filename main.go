@@ -11,7 +11,7 @@ import (
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
-// @title           OfsetControl
+// @title           ListokControl
 // @version         1.0
 // @description     API Server for User Application
 // @BasePath  /

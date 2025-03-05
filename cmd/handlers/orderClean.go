@@ -24,7 +24,7 @@ func OrderClean(c echo.Context) error {
 	if err := step1.Run(); err != nil {
 		fmt.Println(err)
 	}
-	step2 := exec.Command("cupsenable", "offset-pantum-lan")
+	step2 := exec.Command("cupsenable", "listok-kyocera-lan")
 	if err := step2.Run(); err != nil {
 		fmt.Println(err)
 	}

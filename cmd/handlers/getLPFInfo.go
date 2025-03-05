@@ -20,7 +20,7 @@ func GetLPFInfo(c echo.Context) error {
 		return c.String(http.StatusUnauthorized, "Unauthorized")
 	}
 
-	cmdTail := exec.Command("tail", "-n", "100", "/opt/offset/log/lpf/info.log")
+	cmdTail := exec.Command("tail", "-n", "100", "/opt/listok/log/lpf/info.log")
 	outputTail, err := cmdTail.CombinedOutput()
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "Failed to execute tail: "+err.Error())

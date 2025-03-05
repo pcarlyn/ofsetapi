@@ -10,7 +10,7 @@ import (
 
 // Handler for get the last 100 lines of LPF error log
 // @Summary Получение последних 100 строк ошибок LPF
-// @Description Возвращает последние 100 строк из файла лога ошибок LPF (`/opt/offset/log/lpf/error.log`).
+// @Description Возвращает последние 100 строк из файла лога ошибок LPF (`/opt/listok/log/lpf/error.log`).
 // @Tags control
 // @Produce plain
 // @Security ApiKeyAuth
@@ -20,7 +20,7 @@ func GetLPFError(c echo.Context) error {
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")
 	}
-	cmd := exec.Command("tail", "-n", "100", "/opt/offset/log/lpf/error.log")
+	cmd := exec.Command("tail", "-n", "100", "/opt/listok/log/lpf/error.log")
 
 	output, err := cmd.CombinedOutput()
 	if err != nil {
