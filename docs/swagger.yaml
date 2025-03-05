@@ -1,0 +1,198 @@
+basePath: /
+externalDocs:
+  description: OpenAPI
+  url: https://swagger.io/resources/open-api/
+info:
+  contact: {}
+  description: API Server for User Application
+  title: OfsetControl
+  version: "1.0"
+paths:
+  /control/check-rek:
+    get:
+      description: Возвращает вывод команды `ls -lah` для каталога /var/www/reklama.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Получение списка файлов и прав доступа в каталоге /var/www/reklama
+      tags:
+      - control
+  /control/check-usb-dir:
+    get:
+      description: Выполняет команды `ls -lah /media/user` и `lsusb` для отображения
+        содержимого USB-директории и списка подключённых USB-устройств.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Проверка содержимого /media/user и списка USB-устройств
+      tags:
+      - control
+  /control/correct-rek:
+    get:
+      description: Устанавливает правильные права доступа и владельца для файлов в
+        каталоге /var/www/reklama.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Исправление прав доступа для каталога /var/www/reklama
+      tags:
+      - control
+  /control/correct-usb-dir:
+    get:
+      description: Проверяет существование каталога, проверяет его файловую систему
+        (должна быть vfat) и удаляет все файлы в нём.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Очистка каталога /media/user/
+      tags:
+      - control
+  /control/get-log-bot:
+    get:
+      description: Возвращает логи сервиса @bot за последние 2 дня
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Получение логов бота
+      tags:
+      - control
+  /control/get-log-prod/{date}:
+    get:
+      description: Возвращает содержимое лог-файла за выбранную дату
+      parameters:
+      - description: Дата лога (1 - сегодня, 2 - вчера, 3 - позавчера)
+        in: path
+        name: date
+        required: true
+        type: integer
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Получение логов продакшена
+      tags:
+      - control
+  /control/get-log-reboots:
+    get:
+      description: Возвращает вывод команды `journalctl` для получения логов, связанных
+        с перезагрузкой системы, начиная с указанной даты.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Получение логов перезагрузок системы
+      tags:
+      - control
+  /control/get-lpf-error:
+    get:
+      description: Возвращает последние 100 строк из файла лога ошибок LPF (`/opt/offset/log/lpf/error.log`).
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Получение последних 100 строк ошибок LPF
+      tags:
+      - control
+  /control/get-lpf-info:
+    get:
+      description: Возвращает последние 100 строк из лог файла LPF и статус очереди
+        печати (используя команду `lpq`).
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Получение информации из лог файла LPF и статуса LPQ
+      tags:
+      - control
+  /control/order-clean:
+    get:
+      description: Очищает очередь печати, отменяет все задания, включает принтер
+        и перезапускает службу CUPS.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Очистка очереди печати
+      tags:
+      - control
+  /control/print-test:
+    get:
+      description: Запускает тестовую печать с помощью команды lp, отправляя команду
+        на принтер.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Запуск тестовой печати
+      tags:
+      - control
+  /control/restart-bot:
+    get:
+      description: Перезапускает службу бота с помощью команды systemctl restart offset@bot.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Перезапуск службы бота
+      tags:
+      - control
+  /control/run-scanner-test:
+    get:
+      description: Запускает тест сканера с использованием команды `scanimage -T`.
+        Возвращает результат или ошибку в зависимости от выполнения команды.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Выполнение теста сканера
+      tags:
+      - control
+  /control/run-speedtest:
+    get:
+      description: Запускает тест скорости интернета с использованием команды `speedtest`.
+        Возвращает результат или ошибку в зависимости от выполнения команды.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Выполнение теста скорости интернета
+      tags:
+      - control
+  /control/run-speedtest-secure:
+    get:
+      description: Запускает защищенную версию теста скорости интернета с использованием
+        команды `speedtest --secure`. Возвращает результат или ошибку в зависимости
+        от выполнения команды.
+      produces:
+      - text/plain
+      responses: {}
+      security:
+      - ApiKeyAuth: []
+      summary: Выполнение теста скорости интернета (защищенная версия)
+      tags:
+      - control
+securityDefinitions:
+  ApiKeyAuth:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

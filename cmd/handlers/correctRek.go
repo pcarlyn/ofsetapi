@@ -9,6 +9,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for correcting /var/www/reklama permissions
+// @Summary Исправление прав доступа для каталога /var/www/reklama
+// @Description Устанавливает правильные права доступа и владельца для файлов в каталоге /var/www/reklama.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/correct-rek [get]
 func CorrectRek(c echo.Context) error {
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")

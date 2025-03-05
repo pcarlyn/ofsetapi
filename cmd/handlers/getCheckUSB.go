@@ -9,6 +9,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for checking USB directory and connected devices
+// @Summary Проверка содержимого /media/user и списка USB-устройств
+// @Description Выполняет команды `ls -lah /media/user` и `lsusb` для отображения содержимого USB-директории и списка подключённых USB-устройств.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/check-usb-dir [get]
 func CheckUSBDirectory(c echo.Context) error {
 
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {

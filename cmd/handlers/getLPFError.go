@@ -8,6 +8,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for get the last 100 lines of LPF error log
+// @Summary Получение последних 100 строк ошибок LPF
+// @Description Возвращает последние 100 строк из файла лога ошибок LPF (`/opt/offset/log/lpf/error.log`).
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/get-lpf-error [get]
 func GetLPFError(c echo.Context) error {
 
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {

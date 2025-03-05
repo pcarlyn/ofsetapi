@@ -11,6 +11,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for correcting USB directory
+// @Summary Очистка каталога /media/user/
+// @Description Проверяет существование каталога, проверяет его файловую систему (должна быть vfat) и удаляет все файлы в нём.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/correct-usb-dir [get]
 func CorrectUSBdir(c echo.Context) error {
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")

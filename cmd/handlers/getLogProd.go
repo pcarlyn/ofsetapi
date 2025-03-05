@@ -10,6 +10,14 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for getting production logs
+// @Summary Получение логов продакшена
+// @Description Возвращает содержимое лог-файла за выбранную дату
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Param date path int true "Дата лога (1 - сегодня, 2 - вчера, 3 - позавчера)"
+// @Router /control/get-log-prod/{date} [get]
 func GetLogProd(c echo.Context) error {
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")

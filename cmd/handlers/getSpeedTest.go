@@ -11,6 +11,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for running speedtest
+// @Summary Выполнение теста скорости интернета
+// @Description Запускает тест скорости интернета с использованием команды `speedtest`. Возвращает результат или ошибку в зависимости от выполнения команды.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/run-speedtest [get]
 func RunSpeedtest(c echo.Context) error {
 
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {

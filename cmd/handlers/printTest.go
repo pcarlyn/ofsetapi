@@ -9,6 +9,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for printing a test page
+// @Summary Запуск тестовой печати
+// @Description Запускает тестовую печать с помощью команды lp, отправляя команду на принтер.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/print-test [get]
 func PrintTest(c echo.Context) error {
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")

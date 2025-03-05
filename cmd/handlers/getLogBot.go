@@ -9,6 +9,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for getting bot logs
+// @Summary Получение логов бота
+// @Description Возвращает логи сервиса @bot за последние 2 дня
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/get-log-bot [get]
 func GetLogBot(c echo.Context) error {
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")

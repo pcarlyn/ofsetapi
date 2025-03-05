@@ -8,6 +8,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for get /var/www/reklama permissions
+// @Summary Получение списка файлов и прав доступа в каталоге /var/www/reklama
+// @Description Возвращает вывод команды `ls -lah` для каталога /var/www/reklama.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/check-rek [get]
 func GetLSRek(c echo.Context) error {
 
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {

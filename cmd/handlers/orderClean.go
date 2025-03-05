@@ -9,6 +9,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for cleaning the print queue
+// @Summary Очистка очереди печати
+// @Description Очищает очередь печати, отменяет все задания, включает принтер и перезапускает службу CUPS.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/order-clean [get]
 func OrderClean(c echo.Context) error {
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")

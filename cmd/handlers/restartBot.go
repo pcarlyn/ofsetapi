@@ -8,6 +8,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for restarting the bot service
+// @Summary Перезапуск службы бота
+// @Description Перезапускает службу бота с помощью команды systemctl restart offset@bot.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/restart-bot [get]
 func RestartBot(c echo.Context) error {
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")

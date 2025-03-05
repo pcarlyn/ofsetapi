@@ -11,6 +11,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for running scanner test
+// @Summary Выполнение теста сканера
+// @Description Запускает тест сканера с использованием команды `scanimage -T`. Возвращает результат или ошибку в зависимости от выполнения команды.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/run-scanner-test [get]
 func RunScanerTest(c echo.Context) error {
 
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {

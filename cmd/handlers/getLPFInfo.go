@@ -8,6 +8,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for get LPF info and status
+// @Summary Получение информации из лог файла LPF и статуса LPQ
+// @Description Возвращает последние 100 строк из лог файла LPF и статус очереди печати (используя команду `lpq`).
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/get-lpf-info [get]
 func GetLPFInfo(c echo.Context) error {
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")

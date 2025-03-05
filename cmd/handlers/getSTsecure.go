@@ -11,6 +11,13 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// Handler for running secure speedtest
+// @Summary Выполнение теста скорости интернета (защищенная версия)
+// @Description Запускает защищенную версию теста скорости интернета с использованием команды `speedtest --secure`. Возвращает результат или ошибку в зависимости от выполнения команды.
+// @Tags control
+// @Produce plain
+// @Security ApiKeyAuth
+// @Router /control/run-speedtest-secure [get]
 func RunSpeedtestSecure(c echo.Context) error {
 
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
