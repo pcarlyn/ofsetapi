@@ -131,6 +131,7 @@ function App() {
   
   return (
     <>
+    <br></br>
     <div className="flex justify-center items-center">
       <div className="w-72">
         <Field.Root invalid>
@@ -177,6 +178,8 @@ function App() {
             <option value="13">Тест сканера</option>
             <option value="14">Проверка подключения флешки</option>
             <option value="15">Исправления подключения флешки(применять с осторожностью) </option>
+            <option value="16">Проверка видеороликов </option>
+            <option value="17">Исправление прав видеороликов </option>
           </NativeSelectField>
         </NativeSelectRoot>
       <br></br>
@@ -201,6 +204,8 @@ function App() {
         if (selector === 13) {url = baseUrl + '/control/scanimage-test'}
         if (selector === 14) {url = baseUrl + '/control/check-usb-dir'}
         if (selector === 15) {url = baseUrl + '/control/correct-usb-dir'}
+        if (selector === 16) {url = baseUrl + '/control/check-rek'}
+        if (selector === 17) {url = baseUrl + '/control/correct-rek'}
         const prom = fetch(url, { 
           method: 'GET', 
           headers: new Headers({
