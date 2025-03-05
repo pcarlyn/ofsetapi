@@ -9,16 +9,23 @@ import (
 )
 
 func GetLPFInfo(c echo.Context) error {
-
 	if c.Request().Header.Get("Authorization") != config.Cfg.TOKEN {
 		return c.String(http.StatusUnauthorized, "Unauthorized")
 	}
-	cmd := exec.Command("tail", "-n", "100", "/opt/offset/log/lpf/info.log")
 
-	output, err := cmd.CombinedOutput()
+	cmdTail := exec.Command("tail", "-n", "100", "/opt/offset/log/lpf/info.log")
+	outputTail, err := cmdTail.CombinedOutput()
 	if err != nil {
-		return c.String(http.StatusInternalServerError, "Failed to execute command: "+err.Error())
+		return c.String(http.StatusInternalServerError, "Failed to execute tail: "+err.Error())
 	}
 
-	return c.String(http.StatusOK, string(output))
+	cmdLpq := exec.Command("lpq")
+	outputLpq, err := cmdLpq.CombinedOutput()
+	if err != nil {
+		return c.String(http.StatusInternalServerError, "Failed to execute lpq: "+err.Error())
+	}
+
+	finalOutput := "=== LOG FILE ===\n" + string(outputTail) + "\n\n=== LPQ STATUS ===\n" + string(outputLpq)
+
+	return c.String(http.StatusOK, finalOutput)
 }

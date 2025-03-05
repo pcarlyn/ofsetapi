@@ -37,5 +37,5 @@ func PrintTest(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, "Command failed to finish")
 	}
 
-	return c.String(http.StatusOK, "Hello, World!")
+	return c.String(http.StatusOK, "Тестовая печать запущена!")
 }

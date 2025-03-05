@@ -21,4 +21,6 @@ func ControlRoutes(group *echo.Group) {
 	group.GET("/scanimage-test", handlers.RunScanerTest)
 	group.GET("/check-usb-dir", handlers.CheckUSBDirectory)
 	group.GET("/correct-usb-dir", handlers.CorrectUSBdir)
+	group.GET("/check-rek", handlers.GetLSRek)
+	group.GET("/correct-rek", handlers.CorrectRek)
 }

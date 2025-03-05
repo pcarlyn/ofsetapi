@@ -25,5 +25,5 @@ func OrderClean(c echo.Context) error {
 	if err := step3.Run(); err != nil {
 		fmt.Println(err)
 	}
-	return c.String(http.StatusOK, "Hello, World!")
+	return c.String(http.StatusOK, "Очередь очищена")
 }
