@@ -7,6 +7,7 @@ import {
 import { Toaster, toaster } from "./components/ui/toaster"
 import { useState, useRef, useCallback, useEffect } from 'react'
 import { Field, Input } from "@chakra-ui/react"
+import image from './assets/LISTOK.png';
 
 
 
@@ -88,7 +89,7 @@ function App() {
     setInputValue(newValue);
     const newPlaceholder = Number(newValue);
     setPlaceholder(newPlaceholder);
-    handleCalculateHost("of", newPlaceholder)
+    handleCalculateHost("lt", newPlaceholder)
     debouncedFetchData(newPlaceholder);
   };
 
@@ -96,14 +97,14 @@ function App() {
     if (event.key === 'Enter') {
       const newPlaceholder = Number(inputValue); 
       setPlaceholder(newPlaceholder);
-      handleCalculateHost("of", newPlaceholder)
+      handleCalculateHost("lt", newPlaceholder)
       fetchData(newPlaceholder);
     }
   };
 
   const fetchData = async (newPlaceholder: number) => {
 
-    const newHost = calculateHost("of", newPlaceholder);
+    const newHost = calculateHost("lt", newPlaceholder);
     try {
       const response = await fetch("http://" + newHost + ":1323/control/get-number");
 
@@ -132,12 +133,13 @@ function App() {
   return (
     <>
     <br></br>
+    <img src={image} alt="Listok" className="w-48 h-auto" />
     <div className="flex justify-center items-center">
       <div className="w-72">
         <Field.Root invalid>
-          <Field.Label>of***.offset-partners.ru</Field.Label>
+          <Field.Label>lt***.listcopy.local</Field.Label>
           <Input 
-            placeholder={"444"}
+            placeholder={"111"}
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleInputKeyDown}
@@ -153,7 +155,7 @@ function App() {
     <div className="flex">
       <div className="w-100 flex-12  ...">
         <Highlight query="Offset" styles={{ fontWeight: "semibold" }}>
-        {`Offset-${num} Host address-${host}`}
+        {`LISTOK-${num} Host address-${host}`}
         </Highlight>
       </div>
     </div>
