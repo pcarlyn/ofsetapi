@@ -133,7 +133,10 @@ function App() {
   return (
     <>
     <br></br>
+    <div className="flex justify-center items-center">
     <img src={image} alt="Listok" className="w-48 h-auto" />
+    </div>
+    
     <div className="flex justify-center items-center">
       <div className="w-72">
         <Field.Root invalid>
